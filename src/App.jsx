@@ -383,7 +383,7 @@ function App() {
       theme === "dark"
         ? "bg-gray-800 bg-opacity-70 backdrop-blur-sm border border-purple-800/30"
         : "bg-white bg-opacity-90 backdrop-blur-sm border border-purple-200/30"
-    } p-6 rounded-3xl shadow-2xl mb-8`,
+    } p-4 rounded-3xl shadow-2xl mb-8 md:p-6`,
     card: `${
       theme === "dark"
         ? "bg-gray-900 border border-gray-700"
@@ -394,7 +394,7 @@ function App() {
     textMuted: theme === "dark" ? "text-gray-400" : "text-gray-500",
     accentColor: theme === "dark" ? "text-purple-400" : "text-purple-600",
     buttonPrimary:
-      "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 flex align-center justify-center items-center",
+      "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-[5px] px-[10px] rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 flex align-center justify-center items-center md: py-3 px-8",
     buttonSecondary: `${
       theme === "dark"
         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
@@ -434,7 +434,7 @@ function App() {
       {/* Theme Toggle Button (outside main content flow for fixed position) */}
       <button
         onClick={toggleTheme}
-        className={`fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-xl transition-all duration-300 ${
+        className={`fixed bottom-6 right-6 z-50 p-3 mb-20 rounded-full shadow-xl transition-all duration-300 md:mb-0 ${
           theme === "dark"
             ? "bg-gray-700 hover:bg-gray-600 text-white"
             : "bg-white hover:bg-gray-100 text-gray-800"
@@ -446,7 +446,7 @@ function App() {
       {/* Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 left-6 z-50 p-3 rounded-full shadow-xl transition-all duration-300 ${
+        className={`fixed bottom-6 left-6 z-50 p-3 mb-20 rounded-full shadow-xl transition-all duration-300 md:mb-0 ${
           theme === "dark"
             ? "bg-purple-600 hover:bg-purple-700 text-white"
             : "bg-purple-500 hover:bg-purple-600 text-white"
@@ -600,7 +600,7 @@ function App() {
         </div>
       </nav>
       {/* Page Content */}
-      <div className="p-4 sm:p-6 lg:p-8">
+      <div className="p-4 pb-20 sm:p-6 lg:p-8 md:pb-8">
         {" "}
         {/* Added padding to main content */}
         {/* Header Section */}
@@ -663,19 +663,31 @@ function App() {
           </button>
         </header>
         {/* Navigation Tabs */}
-        <nav className="mb-8">
+        {/* Navigation Tabs */}
+        <nav
+          className={`fixed bottom-0 left-0 right-0 z-50 md:static md:mb-8
+          ${
+            theme === "dark"
+              ? "bg-gray-900 bg-opacity-90 backdrop-blur-md border-t border-gray-700"
+              : "bg-white bg-opacity-90 backdrop-blur-md border-t border-gray-200"
+          } py-2 px-2 sm:px-4 md:p-0 md:border-none shadow-lg md:shadow-none`}
+        >
           <ul
-            className={`${commonClasses.panel.replace(
+            className={`flex justify-around md:justify-center w-full
+            ${commonClasses.panel.replace(
               "mb-8",
               ""
-            )} flex flex-wrap justify-center p-2 sm:p-4 border-b border-gray-700/50`}
+            )} p-0 md:p-2 sm:p-4 md:border-b md:border-gray-700/50`}
           >
             {["live", "projects", "schedule", "vods", "blog", "about"].map(
               (tab) => (
-                <li key={tab} className="flex-grow text-center group">
+                <li
+                  key={tab}
+                  className="flex-grow text-center group pl-1 md:pl-2"
+                >
                   <button
                     onClick={() => setActiveTab(tab)}
-                    className={`w-full py-3 px-4 sm:px-6 rounded-xl text-lg font-semibold transition duration-300 ease-in-out transform
+                    className={`w-full py-2 px-2 sm:px-4 md:py-3 md:px-6 rounded-xl text-sm md:text-lg font-semibold transition duration-300 ease-in-out transform flex flex-col items-center justify-center
                     ${
                       activeTab === tab
                         ? `${commonClasses.accentColor
@@ -693,25 +705,25 @@ function App() {
                           )} group-hover:scale-105`
                     }`}
                   >
-                    {tab === "live" && (
-                      <Radio className="inline-block mr-2" size={20} />
-                    )}
-                    {tab === "projects" && (
-                      <Github className="inline-block mr-2" size={20} />
-                    )}
-                    {tab === "schedule" && (
-                      <Calendar className="inline-block mr-2" size={20} />
-                    )}
-                    {tab === "vods" && (
-                      <Tv className="inline-block mr-2" size={20} />
-                    )}
-                    {tab === "blog" && (
-                      <Rss className="inline-block mr-2" size={20} />
-                    )}
-                    {tab === "about" && (
-                      <User className="inline-block mr-2" size={20} />
-                    )}
-                    <span className="capitalize">{tab}</span>
+                    <span className="md:hidden block">
+                      {tab === "live" && <Radio size={20} />}
+                      {tab === "projects" && <Github size={20} />}
+                      {tab === "schedule" && <Calendar size={20} />}
+                      {tab === "vods" && <Tv size={20} />}
+                      {tab === "blog" && <Rss size={20} />}
+                      {tab === "about" && <User size={20} />}
+                    </span>
+                    <span className="hidden md:inline-block mr-2">
+                      {tab === "live" && <Radio size={20} />}
+                      {tab === "projects" && <Github size={20} />}
+                      {tab === "schedule" && <Calendar size={20} />}
+                      {tab === "vods" && <Tv size={20} />}
+                      {tab === "blog" && <Rss size={20} />}
+                      {tab === "about" && <User size={20} />}
+                    </span>
+                    <span className="capitalize hidden md:inline-block">
+                      {tab}
+                    </span>
                   </button>
                 </li>
               )
@@ -763,9 +775,9 @@ function App() {
                           href={streamerData.currentStream.streamLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`${commonClasses.buttonPrimary} text-xs py-1 px-2 sm:py-1.5 sm:px-3`}
+                          className={`${commonClasses.buttonPrimary} text-[10px] py-1 px-2 sm:py-1.5 sm:px-3`}
                         >
-                          <Play size={12} className="mr-1" /> Join Stream
+                          <Play size={10} className="mr-1" /> Join Stream
                         </a>
                       </div>
                     </div>
