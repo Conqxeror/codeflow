@@ -30,10 +30,9 @@ Follow these steps to get the project up and running on your local machine:
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/Conqxeror/codeflow.git
     cd my-react-app
     ```
-    (Replace `<repository-url>` with the actual URL of your Git repository if applicable.)
 
 2.  **Install dependencies:**
     ```bash
