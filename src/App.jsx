@@ -75,7 +75,7 @@ function App() {
   const streamerData = {
     name: "EZSnippet",
     handle: "@ezsnippet",
-    profilePic: "../public/pfp.png", // Placeholder image
+    profilePic: "/pfp.png", // Placeholder image
     isLive: true,
     followers: "15.7K",
     totalViews: "2.1M",
@@ -417,7 +417,7 @@ function App() {
           } animate-fade-in-down`}
         >
           <span>
-            CodeFlow is LIVE! Tune in now to "Building a Full-Stack E-commerce
+            EzSnippet is LIVE! Tune in now to "Building a Full-Stack E-commerce
             App"!
           </span>
           <button
