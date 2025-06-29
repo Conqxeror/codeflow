@@ -451,7 +451,7 @@ function App() {
           theme === "dark"
             ? "bg-gray-700 hover:bg-gray-600 text-white"
             : "bg-white hover:bg-gray-100 text-gray-800"
-        }`}
+        } ${isMobileMenuOpen ? 'hidden' : ''}`}
         aria-label="Toggle theme"
       >
         {theme === "dark" ? <Sun size={24} /> : <Moon size={24} />}
@@ -463,7 +463,7 @@ function App() {
           theme === "dark"
             ? "bg-purple-600 hover:bg-purple-700 text-white"
             : "bg-purple-500 hover:bg-purple-600 text-white"
-        }`}
+        } ${isMobileMenuOpen ? 'hidden' : ''}`}
         aria-label="Scroll to top"
       >
         <ChevronUp size={24} />
@@ -549,7 +549,7 @@ function App() {
             <div
               className={`md:hidden fixed inset-0 z-[999] ${
                 theme === "dark" ? "bg-gray-950" : "bg-white"
-              } bg-opacity-100 backdrop-blur-md flex flex-col items-center justify-center h-screen`}
+              } bg-opacity-100 backdrop-blur-md flex flex-col min-h-screen`}
             >
               <button
                 className="absolute top-4 right-4 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -557,7 +557,7 @@ function App() {
               >
                 <X size={24} className={commonClasses.textPrimary} />
               </button>
-              <ul className="flex flex-col items-center gap-8 text-2xl font-bold mt-20">
+              <ul className="flex flex-col items-center gap-8 text-2xl font-bold mt-8">
                 <li>
                   <a
                     href="#"
@@ -595,7 +595,7 @@ function App() {
                   </a>
                 </li>
               </ul>
-              <div className="flex items-center gap-6 mt-8">
+              <div className="flex items-center gap-6 mt-8 justify-center">
                 {streamerData.socialLinks.map((link, index) => (
                   <a
                     key={index}
@@ -683,7 +683,7 @@ function App() {
             theme === "dark"
               ? "bg-gray-900 bg-opacity-90 backdrop-blur-md border-t border-gray-700"
               : "bg-white bg-opacity-90 backdrop-blur-md border-t border-gray-200"
-          } py-2 px-2 sm:px-4 md:p-0 md:border-none shadow-lg md:shadow-none`}
+          } py-2 px-2 sm:px-4 md:p-0 md:border-none shadow-lg md:shadow-none ${isMobileMenuOpen ? 'hidden' : ''}`}
         >
           <ul
             className={`flex justify-around md:justify-center w-full
