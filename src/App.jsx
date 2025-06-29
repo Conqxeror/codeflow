@@ -28,6 +28,8 @@ import {
   Info,
   Mail,
   ChevronUp,
+  Menu,
+  X,
 } from "lucide-react";
 
 // Utility function to get a random color for skill badges (purely aesthetic)
@@ -48,6 +50,7 @@ function App() {
   const [activeTab, setActiveTab] = useState("live"); // State to manage active tab
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [theme, setTheme] = useState("dark"); // 'dark' or 'light'
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
 
   // Toggle theme
   const toggleTheme = () => {
@@ -81,7 +84,7 @@ function App() {
     totalViews: "2.1M",
     lastOnline: "2 hours ago",
     currentStream: {
-      title: "Building a Full-Stack E-commerce App with Next.js & Supabase",
+      title: "Building a Full-Stack E-commerce",
       category: "Web Development",
       viewers: "2,543",
       thumbnail: "/thumbnail images/thumbnail-1.jpg", // Placeholder thumbnail
@@ -395,7 +398,7 @@ function App() {
     buttonSecondary: `${
       theme === "dark"
         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-        : "bg-gray-200 text-gray-200 hover:bg-gray-300"
+        : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
     } font-semibold py-2 px-5 rounded-full transition duration-300 ease-in-out`,
   };
 
@@ -515,7 +518,85 @@ function App() {
                 )
               )}
             </div>
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X size={24} className={commonClasses.textPrimary} />
+              ) : (
+                <Menu size={24} className={commonClasses.textPrimary} />
+              )}
+            </button>
           </div>
+
+          {/* Mobile Menu Overlay */}
+          {isMobileMenuOpen && (
+            <div
+              className={`md:hidden fixed inset-0 z-50 ${
+                theme === "dark" ? "bg-gray-950" : "bg-white"
+              } bg-opacity-95 backdrop-blur-md flex flex-col items-center justify-center`}
+            >
+              <button
+                className="absolute top-4 right-4 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X size={24} className={commonClasses.textPrimary} />
+              </button>
+              <ul className="flex flex-col items-center gap-8 text-2xl font-bold">
+                <li>
+                  <a
+                    href="#"
+                    onClick={() => {
+                      setActiveTab("live");
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`${commonClasses.textPrimary} hover:${commonClasses.accentColor} transition-colors flex items-center`}
+                  >
+                    <Home size={28} className="mr-2" /> Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    onClick={() => {
+                      setActiveTab("about");
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`${commonClasses.textPrimary} hover:${commonClasses.accentColor} transition-colors flex items-center`}
+                  >
+                    <Info size={28} className="mr-2" /> About
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    onClick={() => {
+                      setActiveTab("about");
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`${commonClasses.textPrimary} hover:${commonClasses.accentColor} transition-colors flex items-center`}
+                  >
+                    <Mail size={28} className="mr-2" /> Contact
+                  </a>
+                </li>
+              </ul>
+              <div className="flex items-center gap-6 mt-8">
+                {streamerData.socialLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${commonClasses.textPrimary} hover:${commonClasses.accentColor} transition-colors`}
+                  >
+                    <link.icon size={32} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </nav>
       {/* Page Content */}
@@ -524,11 +605,11 @@ function App() {
         {/* Added padding to main content */}
         {/* Header Section */}
         <header
-          className={`${commonClasses.panel} flex flex-col md:flex-row items-center justify-between gap-6 mt-8`}
+          className={`${commonClasses.panel} flex flex-col md:flex-row items-center justify-between gap-6 mt-8 text-center md:text-left`}
         >
           {" "}
           {/* Added mt-8 for spacing below navbar */}
-          <div className="flex items-center gap-6 flex-wrap justify-center md:justify-start">
+          <div className="flex flex-col md:flex-row items-center gap-6 flex-wrap justify-center md:justify-start">
             <div className="relative">
               <img
                 src={streamerData.profilePic}
@@ -553,7 +634,7 @@ function App() {
                 {streamerData.handle}
               </p>
               <div
-                className={`flex items-center justify-center md:justify-start mt-3 gap-4 ${commonClasses.textSecondary}`}
+                className={`flex flex-col sm:flex-row items-center justify-center md:justify-start mt-3 gap-4 ${commonClasses.textSecondary}`}
               >
                 <span className="flex items-center text-lg">
                   <Users
@@ -587,7 +668,7 @@ function App() {
             className={`${commonClasses.panel.replace(
               "mb-8",
               ""
-            )} flex flex-wrap justify-center p-2 border-b border-gray-700/50`}
+            )} flex flex-wrap justify-center p-2 sm:p-4 border-b border-gray-700/50`}
           >
             {["live", "projects", "schedule", "vods", "blog", "about"].map(
               (tab) => (
@@ -650,10 +731,10 @@ function App() {
               >
                 Live Stream & Recent Activity
               </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Stream Video Placeholder */}
                 <div
-                  className={`lg:col-span-2 ${
+                  className={`md:col-span-2 ${
                     theme === "dark" ? "bg-gray-900" : "bg-gray-100"
                   } rounded-xl overflow-hidden shadow-lg border ${
                     theme === "dark" ? "border-gray-700" : "border-gray-300"
@@ -667,28 +748,25 @@ function App() {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center p-4 text-white">
-                        <Radio className="w-20 h-20 text-purple-400 animate-pulse mb-4" />
-                        <p className="text-2xl font-bold mb-2 text-center">
+                        <Radio className="w-8 h-8 sm:w-10 sm:h-10 text-purple-400 animate-pulse mb-1" />
+                        <p className="text-sm sm:text-base font-bold mb-1 text-center line-clamp-2">
                           {streamerData.currentStream.title}
                         </p>
-                        <p className="text-lg text-gray-200 mb-4 text-center">
+                        <p className="text-xs sm:text-sm text-gray-200 mb-1 text-center">
                           {streamerData.currentStream.category}
                         </p>
-                        <div className="flex items-center text-lg text-gray-100 mb-4">
-                          <Users size={20} className="mr-2 text-purple-300" />{" "}
+                        <div className="flex items-center text-xs sm:text-sm text-gray-100 mb-1">
+                          <Users size={12} className="mr-1 text-purple-300" />{" "}
                           {streamerData.currentStream.viewers} Viewers
                         </div>
                         <a
                           href={streamerData.currentStream.streamLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={commonClasses.buttonPrimary}
+                          className={`${commonClasses.buttonPrimary} text-xs py-1 px-2 sm:py-1.5 sm:px-3`}
                         >
-                          <Play size={20} className="mr-2" /> Join Stream
+                          <Play size={12} className="mr-1" /> Join Stream
                         </a>
-                        <p className="text-sm text-gray-500 mt-4">
-                          (This is a mock embed area)
-                        </p>
                       </div>
                     </div>
                   ) : (
@@ -697,9 +775,9 @@ function App() {
                         theme === "dark" ? "bg-gray-900" : "bg-gray-100"
                       } rounded-xl`}
                     >
-                      <Play className="w-20 h-20 text-gray-500 mb-4" />
+                      <Play className="w-16 h-16 sm:w-20 sm:h-20 text-gray-500 mb-4" />
                       <p
-                        className={`text-xl ${commonClasses.textSecondary} mb-2`}
+                        className={`text-lg sm:text-xl ${commonClasses.textSecondary} mb-2`}
                       >
                         Stream is currently offline.
                       </p>
@@ -714,44 +792,46 @@ function App() {
 
                   {/* Mock Video Controls */}
                   <div
-                    className={`p-4 ${
+                    className={`p-2 sm:p-4 ${
                       theme === "dark" ? "bg-gray-950" : "bg-gray-200"
-                    } flex items-center justify-between`}
+                    } flex items-center justify-between flex-nowrap w-full overflow-x-auto`}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                       <button
                         className={commonClasses.buttonSecondary.replace(
                           "py-2 px-5",
-                          "p-2"
+                          "p-1 sm:p-2"
                         )}
                       >
-                        <Play size={20} />
+                        <Play size={16} sm:size={20} />
                       </button>
-                      <input
-                        type="range"
-                        className="w-32 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-                        value={0}
-                      />
-                      <span className={commonClasses.textMuted}>
-                        0:00 / 0:00
-                      </span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <input
+                      type="range"
+                      className="flex-grow h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer mx-1 sm:mx-2 min-w-[60px]"
+                      value={0}
+                    />
+                    <span
+                      className={`${commonClasses.textMuted} text-xs sm:text-sm flex-shrink-0`}
+                    >
+                      0:00 / 0:00
+                    </span>
+                    <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 ml-auto">
                       <button
                         className={commonClasses.buttonSecondary.replace(
                           "py-2 px-5",
-                          "p-2"
+                          "p-1 sm:p-2"
                         )}
                       >
-                        <Layers size={20} />
+                        <Layers size={16} sm:size={20} />
                       </button>
                       <button
                         className={commonClasses.buttonSecondary.replace(
                           "py-2 px-5",
-                          "p-2"
+                          "p-1 sm:p-2"
                         )}
                       >
-                        <Eye size={20} />
+                        <Eye size={16} sm:size={20} />
                       </button>
                     </div>
                   </div>
@@ -856,7 +936,7 @@ function App() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex flex-wrap gap-2 mt-4">
                       <input
                         type="text"
                         placeholder="Type your message..."
@@ -940,7 +1020,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {streamerData.projects.map((project) => (
                   <div key={project.id} className={commonClasses.card}>
                     <div>
@@ -1019,7 +1099,7 @@ function App() {
               >
                 Stream Schedule
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {streamerData.schedule.map((session, index) => (
                   <div
                     key={index}
@@ -1078,7 +1158,7 @@ function App() {
               >
                 Past Streams (VODs) & Highlights
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {streamerData.vods.map((vod) => (
                   <div key={vod.id} className={commonClasses.card}>
                     <img
@@ -1134,7 +1214,7 @@ function App() {
               >
                 Blog Posts & Articles
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {streamerData.blogPosts.map((post) => (
                   <div key={post.id} className={commonClasses.card}>
                     <h3
@@ -1243,7 +1323,7 @@ function App() {
               >
                 What Viewers Say
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                 {streamerData.testimonials.map((testimonial, index) => (
                   <div
                     key={index}
@@ -1267,7 +1347,7 @@ function App() {
               >
                 Support CodeFlow
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {streamerData.subscriberTiers.map((tier, index) => (
                   <div
                     key={index}
@@ -1415,7 +1495,7 @@ function App() {
             : "bg-white border-t border-gray-200"
         } py-8 px-6 sm:px-8 lg:px-10 mt-10 shadow-inner`}
       >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Brand Info */}
           <div>
             <h3
