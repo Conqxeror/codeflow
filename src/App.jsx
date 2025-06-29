@@ -66,6 +66,19 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Effect to manage body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    // Cleanup: ensure scroll is re-enabled when component unmounts or menu closes
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   // Scroll to top functionality for the back-to-top button
   const scrollToTop = () => {
     window.scrollTo({
@@ -534,9 +547,9 @@ function App() {
           {/* Mobile Menu Overlay */}
           {isMobileMenuOpen && (
             <div
-              className={`md:hidden fixed inset-0 z-50 ${
+              className={`md:hidden fixed inset-0 z-[999] ${
                 theme === "dark" ? "bg-gray-950" : "bg-white"
-              } bg-opacity-95 backdrop-blur-md flex flex-col items-center justify-center`}
+              } bg-opacity-100 backdrop-blur-md flex flex-col items-center justify-center h-screen`}
             >
               <button
                 className="absolute top-4 right-4 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -544,7 +557,7 @@ function App() {
               >
                 <X size={24} className={commonClasses.textPrimary} />
               </button>
-              <ul className="flex flex-col items-center gap-8 text-2xl font-bold">
+              <ul className="flex flex-col items-center gap-8 text-2xl font-bold mt-20">
                 <li>
                   <a
                     href="#"
