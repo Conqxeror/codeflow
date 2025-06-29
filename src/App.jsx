@@ -394,7 +394,7 @@ function App() {
     textMuted: theme === "dark" ? "text-gray-400" : "text-gray-500",
     accentColor: theme === "dark" ? "text-purple-400" : "text-purple-600",
     buttonPrimary:
-      "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-[5px] px-[10px] rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 flex align-center justify-center items-center md: py-3 px-8",
+      "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-[5px] px-[10px] rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 flex align-center justify-center items-center md:py-3 md:px-7",
     buttonSecondary: `${
       theme === "dark"
         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
